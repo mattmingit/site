@@ -6,12 +6,14 @@ import Icon from "@/design-system/icon";
 import MdxH3 from "@/post-components/mdxh3";
 import ListItem from "@/post-components/listitem";
 import { MathBlock } from "@/post-components/math";
+import { LLM } from "@/post/media-components/llm";
 import remarkGfm from "remark-gfm";
 import rehypePrism from "rehype-prism-plus";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import "katex/dist/katex.min.css";
 import "prismjs/themes/prism-okaidia.css";
+import { AnimatedName } from "@/app/ui/animated-name";
 
 const postDir = path.join(process.cwd(), "post");
 
@@ -60,7 +62,8 @@ export default async function BlogPostPage({
         rehypePlugins: [[rehypePrism, { ignoreMissing: true }], rehypeKatex],
       },
     },
-    components: { MdxH3, ListItem, MathBlock },
+    components: { MdxH3, ListItem, MathBlock, LLM },
+    //components: components,
   }).catch((error) => {
     throw new Error(`Failed to compile MDX: ${error.message}`);
   });
@@ -75,14 +78,17 @@ export default async function BlogPostPage({
     <div className="flex flex-none flex-col items-start justify-center flex-nowrap gap-[40px] h-min overflow-hidden p-0 font-fs max-w-[750px] text-foreground-2">
       <div>
         <p className="text-[20px] font-semibold">{frontmatter.title}</p>
+        <AnimatedName />
         <div className="flex flex-row text-[12px]">
-          <Icon src={frontmatter.icon} size="12"></Icon>
-          <p className="text-post-date ml-[5px]">{frontmatter.category}</p>
+          {/* <Icon src={frontmatter.icon} size="12"></Icon> */}
+          <p className="text-post-date ml-[2px]">{frontmatter.category}</p>
           <p className="text-post-date ml-[5px]">•</p>
           <p className="text-post-date ml-[5px]">{frontmatter.date}</p>
         </div>
       </div>
-      <article className="flex flex-col gap-[20px] text-[14px] prose-a:text-blue prose-a:underline">
+      <article
+        className={`flex flex-col gap-[20px] text-[14px] prose-a:text-blue`}
+      >
         {renderedContent}
       </article>
     </div>
