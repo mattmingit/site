@@ -15,7 +15,7 @@ export default function About() {
         <div className="text-foreground-2 gap-[15px] flex flex-col mb-[50px] text-[14px]">
           <p className="font-semibold text-[16px] text-foreground-2">About</p>
           <p>
-            Ever since I was young, technology has been a magnetic force inmy
+            Ever since I was young, technology has been a magnetic force in my
             life. Growning up I found a new interest in economy and finance.{" "}
           </p>
           <p>

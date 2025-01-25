@@ -1,0 +1,137 @@
+---
+id: "3"
+date: "24/01/2025"
+date-index: ""
+image: "/img/blog/rust-logo.jpg"
+title: "Exploring Rust: why I'm learning it for data analysis"
+description: "Discover why I'm learning rust for data analysis, particularly in financial applications."
+category: "Journal"
+icon: "/img/icons/Editing.png"
+---
+
+import MdxH3 from '../post-components/mdxh3';
+import ListItem from '../post-components/listitem';
+import MathBlock from '../post-components/math';
+ 
+
+<img src="/img/blog/rust-logo.jpg" className="rounded-[10px] h-[400px] w-[500px]" />
+
+Rust is a systems programming language that’s been rapidly gaining popularity in recent years. Known for its speed, safety, and concurrency capabilities, Rust is a powerful tool for developers who need to write efficient and reliable code. In this post, I'll explore why I am learning Rust, especially for data analysis, and how its unique features make it an appealing choice for tasks like financial analysis.
+
+<MdxH3>What makes Rust special?</MdxH3>
+
+Rust’s design is focused on providing the performance of low-level languages (like `C` and `C++`) without compromising safety. It achieves this by leveraging strict rules and a unique ownership model that prevents common bugs such as memory corruption and data races.
+
+<MdxH3>Why Rust for data analysis?</MdxH3>
+
+As someone diving into data analysis, especially in financial fields, I found that Rust’s advantages align perfectly with my goals. Here’s why:
+
+<ListItem>1. Memory safety without garbage collection</ListItem>
+One of Rust’s standout features is its memory safety model, which prevents common issues like dangling pointers, buffer overflows, and null pointer dereferencing. Rust achieves this through its ownership and borrowing system, ensuring that data is safely accessed without the need for a garbage collector. In the context of data analysis, this means that I can focus on analyzing large datasets without worrying about memory leaks or performance bottlenecks
+   
+<ListItem>2. High performance</ListItem>
+Rust is designed to be as fast as C or C++, making it an excellent choice for performance-critical applications. Data analysis, particularly with large datasets, requires high-speed computation to extract valuable insights. Rust compiles directly to machine code and has zero-cost abstractions, meaning that I can perform intensive calculations (like financial modeling) without sacrificing efficiency.
+
+<ListItem>3. Concurrency without data races</ListItem>
+Rust provides powerful concurrency support without the risk of data races. It ensures that data is either mutable and owned by a single thread or shared immutably across threads, preventing issues that often occur in concurrent programming. In data analysis tasks, where handling multiple threads can significantly speed up processing, Rust ensures that I can safely run parallel computations without worrying about race conditions.
+
+<ListItem>4. Strong type system</ListItem>
+Rust’s type system is designed to catch bugs at compile time, which helps me write correct and efficient code. The language supports generics, type inference, and pattern matching, which can simplify complex data manipulations. For data analysis tasks, such as processing financial data or working with time-series data, this means fewer errors and more robust code.
+
+<ListItem>5. Great ecosystem and tooling</ListItem>
+Rust’s ecosystem is growing rapidly, with libraries such as ndarray for multi-dimensional arrays (great for time-series data), serde for efficient data serialization, and tokio for async programming. The built-in tools like Cargo (for package management and building projects), Clippy (for linting), and Rustfmt (for code formatting) make the development process smoother.
+
+<MdxH3>Challenges of Using Rust</MdxH3>
+
+While Rust has many advantages, there are a few challenges, especially when it comes to learning the language and adapting it for specific use cases.
+
+<ListItem>1. Steep learning curve</ListItem>
+Rust’s ownership model and strict compiler can be daunting to newcomers. Although these features provide safety, they also require a deep understanding of how memory is managed. Coming from higher-level languages, it can take some time to get comfortable with concepts like borrowing, ownership, and lifetimes. However, once these concepts are mastered, they offer immense value in terms of safety and performance.
+
+<ListItem>2. Slow compilation times</ListItem>
+Rust's compilation times are slower compared to languages like Go or C, especially when dealing with large codebases. This is due to the additional checks and optimizations performed by the compiler to ensure memory safety. While the wait time is worth the benefits, it’s something I’ve had to adjust to in my workflow.
+
+<ListItem>3. Limited ecosystem compared to Python/R</ListItem>
+While Rust’s ecosystem is growing, it still doesn’t have the same extensive support for data science and analysis as languages like Python or R. Many of the mature libraries in Python (like `pandas`, `NumPy`, and `scikit-learn`) are not yet fully replicated in Rust. However, with libraries like ndarray and polars, Rust is making strides in this area.
+
+<ListItem>4. Lack of built-in garbage collection</ListItem>
+Rust doesn’t have a built-in garbage collector, which is both an advantage and a disadvantage. While it ensures better control over memory usage and prevents the overhead of garbage collection, it also requires developers to manually manage ownership and lifetimes, which can be tricky for more complex data structures.
+
+<MdxH3>Rust in action: calculating the Sharpe ratio</MdxH3>
+
+One practical application of Rust in financial analysis is calculating the **Sharpe Ratio**, a widely-used metric to evaluate the risk-adjusted return of a portfolio. The formula is:
+
+<MathBlock>
+    $$ SR = \frac{R_p - R_f}{\sigma_p} $$
+</MathBlock>
+Where:
+- $R_{p}$ represents the **portfolio return**;
+- $R_{f}$ represents the **risk-free rate** (e.g. _return of a treasury bond_)
+- $\sigma_p$ represents the **standard deviation** of the portfolio returns (better known as _portfolio volatility_).
+
+Here's how you can compute it in Rust:
+```rust
+use std::f64;
+
+// calculates the mean of a vector of returns
+fn calcualte_mean(returns: &[f64]) -> f64 {
+    let sum: f64 = returns.iter().sum();
+    sum / returns.len() as f64
+}
+
+// calculates the standard deviation of the returns
+fn calculate_std(returns: &[f64], mean: f64) -> f64 {
+    let variance: f64 = returns.iter()
+        .map(|r| (r - mean).powi(2))
+        .sum::<f64>() 
+        / (returns.len() - 1) as f64;
+    variance.sqrt()
+}
+
+// Calculates the Sharpe Ratio of a portfolio
+fn calculate_sharpe_ratio(returns: &[f64], risk_free_rate: f64) -> f64 {
+    let mean_return = calculate_mean(returns);
+    let std_dev = calculate_std_dev(returns, mean_return);
+
+    if std_dev == 0.0 {
+        f64::NAN // Avoid division by zero
+    } else {
+        (mean_return - risk_free_rate) / std_dev
+    }
+}
+
+fn main() {
+    let portfolio_returns = [0.01, 0.015, 0.02, 0.005, -0.01]; // Example portfolio returns
+    let risk_free_rate = 0.002; // Example risk-free rate (e.g., 0.2%)
+
+    let sharpe_ratio = calculate_sharpe_ratio(&portfolio_returns, risk_free_rate);
+
+    if sharpe_ratio.is_nan() {
+        println!("The standard deviation is zero; Sharpe Ratio cannot be calculated.");
+    } else {
+        println!("The Sharpe Ratio of the portfolio is: {:.4}", sharpe_ratio);
+    }
+}
+
+// Example output: 
+// The Sharpe Ratio of the portfolio is: 0.9405
+```
+
+How the code works:
+
+<ListItem>1. Mean calculations</ListItem>
+The `calcualte_mean` function computes the average return of the portfolio.
+
+<ListItem>2. Standard deviation</ListItem>
+The `calculate_std` function calculate the portfolio's return volatility.
+
+<ListItem>3. Sharpe ratio</ListItem>
+The `calculate_sharpe_ratio` function implements the formula, subtracting the risk-free rate from the mean return and dividing by the standard deviation.
+
+<MdxH3>Conclusion</MdxH3>
+
+Rust is emerging as an excellent choice for data analysis, particularly in fields like financial analysis where speed, safety, and concurrency are critical. While the ecosystem for data analysis is still growing, Rust’s unique features, memory safety, high performance, and concurrency support make it ideal for processing large datasets and performing complex calculations.
+
+The example of calculating the Sharpe Ratio demonstrates Rust’s capability to handle financial computations efficiently, ensuring accuracy and reliability. As I continue learning Rust, I’m excited to explore its potential for high-performance data analysis and its application in solving real-world financial problems.
+
+If you’re looking for a language that combines safety, performance, and scalability, Rust is well worth the investment, particularly for data-driven domains like finance.

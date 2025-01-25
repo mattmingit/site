@@ -9,7 +9,7 @@ export default function ProjectCard(props: any) {
 
   return (
     <>
-      <div className="h-[auto] w-[100%]  cursor-pointer ">
+      <div className="h-[auto] w-[100%]  cursor-pointer text-[14px]">
         <div className="flex justify-center rounded-[10px] h-[400px]">
           <img
             src={image}

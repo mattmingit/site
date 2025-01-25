@@ -27,7 +27,7 @@ export default function Navbar() {
         </li>
         <li
           className={`cursor-pointer ${
-            curPage === "/blog" || curPage.startsWith("/blog/post")
+            curPage === "/blog" || curPage.startsWith("/blog/")
               ? "font-semibold text-foreground-2"
               : "text-foreground-3"
           }`}

@@ -15,7 +15,7 @@ export default function Blog() {
 
   return (
     <>
-      <div className="flex flex-none flex-col items-start justify-center flex-nowrap gap-[40px] h-min overflow-hidden p-0 font-fs max-w-[750px] text-foreground-2">
+      <div className="flex flex-none flex-col items-start justify-center flex-nowrap gap-[40px] h-min overflow-hidden p-0 font-fs max-w-[750px] text-foreground-2 text-[14px]">
         <div className="text-foreground-2 gap-[15px] flex flex-col mb-[50px]">
           <p className="font-semibold text-[16px]">
             Blog, thoughts and commentaries

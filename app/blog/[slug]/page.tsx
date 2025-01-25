@@ -3,12 +3,21 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import fs from "fs";
 import path from "path";
 import Icon from "@/design-system/icon";
+import MdxH3 from "@/post-components/mdxh3";
+import ListItem from "@/post-components/listitem";
+import { MathBlock } from "@/post-components/math";
+import remarkGfm from "remark-gfm";
+import rehypePrism from "rehype-prism-plus";
+import rehypeKatex from "rehype-katex";
+import remarkMath from "remark-math";
+import "katex/dist/katex.min.css";
+import "prismjs/themes/prism-okaidia.css";
 
 const postDir = path.join(process.cwd(), "post");
 
 export async function generateStaticParams() {
   const f = await fs.readdirSync(postDir);
-  console.log("Files in post firectory:", f);
+  console.log("Files in post directory:", f);
   const slugs = f
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => file.replace(/\.mdx$/, ""));
@@ -42,18 +51,16 @@ export default async function BlogPostPage({
     description: string;
   }
 
-  // if (!post) {
-  //   notFound();
-  // }
-
-  // const { content, data } = post;
-  // const mdxSource = await serialize(content, { scope: data });
-
   const mdxData = await compileMDX<Frontmatter>({
     source: content,
     options: {
       parseFrontmatter: true,
+      mdxOptions: {
+        remarkPlugins: [remarkGfm, remarkMath],
+        rehypePlugins: [[rehypePrism, { ignoreMissing: true }], rehypeKatex],
+      },
     },
+    components: { MdxH3, ListItem, MathBlock },
   }).catch((error) => {
     throw new Error(`Failed to compile MDX: ${error.message}`);
   });
@@ -65,12 +72,6 @@ export default async function BlogPostPage({
   const { frontmatter, content: renderedContent } = mdxData;
 
   return (
-    // <main className="prose mx-auto px-4 py-8">
-    //   <h1>{data.title}</h1>
-    //   <p className="text-gray-500">{data.date}</p>
-    //   {data.image && <img src={data.image} alt={data.title} className="my-4" />}
-    //   <MDXRemote source={mdxSource} />
-    // </main>
     <div className="flex flex-none flex-col items-start justify-center flex-nowrap gap-[40px] h-min overflow-hidden p-0 font-fs max-w-[750px] text-foreground-2">
       <div>
         <p className="text-[20px] font-semibold">{frontmatter.title}</p>
@@ -81,7 +82,7 @@ export default async function BlogPostPage({
           <p className="text-post-date ml-[5px]">{frontmatter.date}</p>
         </div>
       </div>
-      <article className="flex flex-col gap-[20px] text-[14px]">
+      <article className="flex flex-col gap-[20px] text-[14px] prose-a:text-blue prose-a:underline">
         {renderedContent}
       </article>
     </div>
