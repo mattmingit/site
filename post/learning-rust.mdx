@@ -108,39 +108,42 @@ Where:
 
 Here's how you can compute it in Rust:
 
+<details>
+    <summary className="text-foreground-2 cursor-pointer">sharpe ratio rust code</summary>
 ```rust
 use std::f64;
 
 // calculates the mean of a vector of returns
 fn calcualte_mean(returns: &[f64]) -> f64 {
-    let sum: f64 = returns.iter().sum();
-    sum / returns.len() as f64
+let sum: f64 = returns.iter().sum();
+sum / returns.len() as f64
 }
 
 // calculates the standard deviation of the returns
 fn calculate_std(returns: &[f64], mean: f64) -> f64 {
-    let variance: f64 = returns.iter()
-        .map(|r| (r - mean).powi(2))
-        .sum::<f64>()
-        / (returns.len() - 1) as f64;
-    variance.sqrt()
+let variance: f64 = returns.iter()
+.map(|r| (r - mean).powi(2))
+.sum::<f64>()
+/ (returns.len() - 1) as f64;
+variance.sqrt()
 }
 
 // Calculates the Sharpe Ratio of a portfolio
 fn calculate_sharpe_ratio(returns: &[f64], risk_free_rate: f64) -> f64 {
-    let mean_return = calculate_mean(returns);
-    let std_dev = calculate_std_dev(returns, mean_return);
+let mean_return = calculate_mean(returns);
+let std_dev = calculate_std_dev(returns, mean_return);
 
     if std_dev == 0.0 {
         f64::NAN // Avoid division by zero
     } else {
         (mean_return - risk_free_rate) / std_dev
     }
+
 }
 
 fn main() {
-    let portfolio_returns = [0.01, 0.015, 0.02, 0.005, -0.01]; // Example portfolio returns
-    let risk_free_rate = 0.002; // Example risk-free rate (e.g., 0.2%)
+let portfolio_returns = [0.01, 0.015, 0.02, 0.005, -0.01]; // Example portfolio returns
+let risk_free_rate = 0.002; // Example risk-free rate (e.g., 0.2%)
 
     let sharpe_ratio = calculate_sharpe_ratio(&portfolio_returns, risk_free_rate);
 
@@ -149,11 +152,14 @@ fn main() {
     } else {
         println!("The Sharpe Ratio of the portfolio is: {:.4}", sharpe_ratio);
     }
+
 }
 
 // Example output:
 // The Sharpe Ratio of the portfolio is: 0.9405
+
 ```
+</details>
 
 How the code works:
 
@@ -174,3 +180,9 @@ Rust is emerging as an excellent choice for data analysis, particularly in field
 The example of calculating the Sharpe Ratio demonstrates Rust’s capability to handle financial computations efficiently, ensuring accuracy and reliability. As I continue learning Rust, I’m excited to explore its potential for high-performance data analysis and its application in solving real-world financial problems.
 
 If you’re looking for a language that combines safety, performance, and scalability, Rust is well worth the investment, particularly for data-driven domains like finance.
+
+```
+
+```
+
+```

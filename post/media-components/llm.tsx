@@ -4,13 +4,13 @@ import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 
 const networkStructure = {
-  inputNodes: ["San", "Francisco", "is", "a"],
+  inputNodes: ["stock", "market", "is", "volatile"],
   hiddenLayers: [
     Array(4).fill("hidden1"),
     Array(4).fill("hidden2"),
     Array(4).fill("hidden3"),
   ],
-  outputNode: "city",
+  outputNode: "trend",
 };
 
 const nodePositions = {
@@ -344,7 +344,7 @@ export function LLM() {
         </div>
       </div>
 
-      <div className="absolute bottom-4 right-4 flex items-center space-x-1">
+      {/* <div className="absolute bottom-4 right-4 flex items-center space-x-1">
         <button
           className="p-[2px] rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
           onClick={() => setIsPlaying(!isPlaying)}
@@ -395,7 +395,7 @@ export function LLM() {
             {s}x
           </button>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
