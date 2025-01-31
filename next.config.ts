@@ -12,8 +12,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: "mattmingit.github.io",
-  assetPrefix: "mattmingit.github.io",
+  basePath: "/site",
+  assetPrefix: "/site/",
 };
 
 const withMDX = createMDX({
