@@ -22,11 +22,10 @@ export default function Home() {
             return (
               <ProjectCard
                 key={p.id}
-                icon={p.icon}
                 title={p.title}
-                year={p.year}
+                // year={p.year}
                 image={p.image}
-                href={p.href}
+                // href={p.href}
                 desc={p.description}
                 employer={p.employer}
               />

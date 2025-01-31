@@ -26,21 +26,21 @@ export async function generateStaticParams() {
 }
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-  if (!params.slug) {
+  if (!(await params).slug) {
     throw new Error("Slug is undefined. Check route and params.");
   }
 
-  const fPath = path.join(postDir, `${params.slug}.mdx`);
+  const fPath = path.join(postDir, `${(await params).slug}.mdx`);
   console.log("Loading file at path:", fPath);
   let content;
   try {
-    content = await fs.readFileSync(fPath, "utf-8");
+    content = fs.readFileSync(fPath, "utf-8");
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Failed to read file at ${fPath}: ${error.message}`);

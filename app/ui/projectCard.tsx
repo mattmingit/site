@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 interface ProjectCardProps {
   title: string;
   image: string;
@@ -17,7 +15,7 @@ export default function ProjectCard({
     <>
       <div className="h-[auto] w-[100%]  cursor-pointer text-[14px]">
         <div className="flex justify-center rounded-[10px] h-[400px]">
-          <Image
+          <img
             src={image}
             alt={title}
             className="border border-solid border-[1px] rounded-[10px] bg-[#f7f7f7]"

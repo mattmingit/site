@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import getPostMetaData from "@/commons/getPostMeta";
 
 export default function Blog() {
@@ -28,7 +27,7 @@ export default function Blog() {
             return (
               <div key={p.slug} className="pt-[40px]">
                 <Link href={`/blog/${p.slug}`}>
-                  <Image
+                  <img
                     src={p.image}
                     alt={p.title}
                     className="h-[200px] w-[400px] rounded-lg"
