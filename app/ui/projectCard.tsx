@@ -1,19 +1,25 @@
-export default function ProjectCard(props: any) {
-  const icon = props.icon;
-  const title = props.title;
-  const year = props.year;
-  const image = props.image;
-  const href = props.href;
-  const desc = props.desc;
-  const employer = props.employer;
+import Image from "next/image";
 
+interface ProjectCardProps {
+  title: string;
+  image: string;
+  desc: string;
+  employer: string;
+}
+
+export default function ProjectCard({
+  title,
+  image,
+  desc,
+  employer,
+}: ProjectCardProps) {
   return (
     <>
       <div className="h-[auto] w-[100%]  cursor-pointer text-[14px]">
         <div className="flex justify-center rounded-[10px] h-[400px]">
-          <img
+          <Image
             src={image}
-            alt=""
+            alt={title}
             className="border border-solid border-[1px] rounded-[10px] bg-[#f7f7f7]"
           />
         </div>

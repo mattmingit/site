@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import getPostMetaData from "@/commons/getPostMeta";
 
 export default function Blog() {
@@ -23,12 +24,13 @@ export default function Blog() {
         </div>
         <div className="grid grid-cols-2 gap-[40px]">
           {postMeta.map((p) => {
-            const d = parseDate(p.date);
+            // const d = parseDate(p.date);
             return (
               <div key={p.slug} className="pt-[40px]">
                 <Link href={`/blog/${p.slug}`}>
-                  <img
+                  <Image
                     src={p.image}
+                    alt={p.title}
                     className="h-[200px] w-[400px] rounded-lg"
                   />
                   <p className="text-[18px] font-medium pl-[5px] mt-[15px] max-w-[300px]">

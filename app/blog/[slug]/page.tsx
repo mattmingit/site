@@ -2,7 +2,6 @@
 import { compileMDX } from "next-mdx-remote/rsc";
 import fs from "fs";
 import path from "path";
-import Icon from "@/design-system/icon";
 import MdxH3 from "@/post-components/mdxh3";
 import ListItem from "@/post-components/listitem";
 import { MathBlock } from "@/post-components/math";
@@ -40,8 +39,12 @@ export default async function BlogPostPage({
   let content;
   try {
     content = await fs.readFileSync(fPath, "utf-8");
-  } catch (error: any) {
-    throw new Error(`Failed to read file at ${fPath}: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to read file at ${fPath}: ${error.message}`);
+    } else {
+      throw new Error(`Failed to read file at ${fPath}: Unknown error`);
+    }
   }
   interface Frontmatter {
     id: string;

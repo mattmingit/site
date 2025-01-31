@@ -33,7 +33,7 @@ export default function About() {
             analysis.
           </p>
           <p>
-            My journey didn't stop there. I ventured into{" "}
+            My journey didn&apos;t stop there. I ventured into{" "}
             <span className="text-orange font-semibold">web development</span>,
             having fun building web and desktop applications.
           </p>
@@ -49,8 +49,8 @@ export default function About() {
           </p>
           <div>
             <p>
-              Università Telematica UniNettuno - Economia e Governo d'Impresa /{" "}
-              <span className="font-semibold">2024 -</span>{" "}
+              Università Telematica UniNettuno - Economia e Governo
+              d&apos;Impresa / <span className="font-semibold">2024 -</span>{" "}
               <motion.span
                 className="h-2 w-2 rounded-full bg-green inline-block ml-1 mt-[2px]"
                 animate={{ scale: [1, 1.3, 1] }}
