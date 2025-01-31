@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
   /* config options here */
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   output: "export",
+  images: {
+    unoptimized: true,
+  },
+  basePath: "mattmingit.github.io",
+  assetPrefix: "mattmingit.github.io",
 };
 
 const withMDX = createMDX({
