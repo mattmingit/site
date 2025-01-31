@@ -1,8 +1,8 @@
 const projects = [
   {
     id: "p1",
-    icon: "/img/projects/geted-logo-icon.png",
-    image: "/img/projects/GetEd-prj-cd.png",
+    icon: "./img/projects/geted-logo-icon.png",
+    image: "./img/projects/GetEd-prj-cd.png",
     title: "GetEd",
     description: "Note sharing website for students.",
     year: "2024",
