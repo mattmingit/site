@@ -8,6 +8,7 @@ import rehypePrism from "rehype-prism-plus";
 const nextConfig: NextConfig = {
   /* config options here */
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  output: "export",
 };
 
 const withMDX = createMDX({
