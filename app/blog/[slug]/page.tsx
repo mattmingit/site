@@ -22,14 +22,16 @@ export async function generateStaticParams() {
   const slugs = f
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => file.replace(/\.mdx$/, ""));
-  return slugs.map((s) => ({ s }));
+  return slugs.map((slug) => ({ slug }));
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function BlogPostPage({ params }: PageProps) {
   if (!params.slug) {
     throw new Error("Slug is undefined. Check route and params.");
   }
