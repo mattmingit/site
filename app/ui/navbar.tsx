@@ -13,7 +13,7 @@ export default function Navbar() {
             curPage === "/"
               ? "font-semibold text-foreground-2"
               : "text-foreground-3"
-          } `}
+          } hover:text-foreground-2`}
         >
           <Link href="/">Home</Link>
         </li>
@@ -22,7 +22,7 @@ export default function Navbar() {
             curPage === "/about"
               ? "font-semibold text-foreground-2"
               : "text-foreground-3"
-          }`}
+          } hover:text-foreground-2`}
         >
           <Link href="/about">About</Link>
         </li>
@@ -31,7 +31,7 @@ export default function Navbar() {
             curPage === "/blog" || curPage.startsWith("/blog/")
               ? "font-semibold text-foreground-2"
               : "text-foreground-3"
-          }`}
+          } hover:text-foreground-2`}
         >
           <Link href="/blog">Blog</Link>
         </li>
@@ -40,7 +40,7 @@ export default function Navbar() {
             curPage === "/fun"
               ? "font-semibold text-foreground-2"
               : "text-foreground-3"
-          }`}
+          } hover:text-foreground-2`}
         >
           Fun
         </li>

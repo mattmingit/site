@@ -239,11 +239,11 @@ export function Tokenization() {
         </motion.div>
       </div>
 
-      {/* <div className="absolute bottom-4 right-4 flex items-center space-x-1">
+      <div className="absolute bottom-4 right-4 flex items-center space-x-1">
         <button
           className="p-[2px] rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
           onClick={() => setIsPlaying(!isPlaying)}
-          aria-label={isPlaying ? 'Pause' : 'Play'}
+          aria-label={isPlaying ? "Pause" : "Play"}
         >
           {isPlaying ? (
             <svg
@@ -282,15 +282,15 @@ export function Tokenization() {
             key={`speed-${s}`}
             className={`px-2 py-1 text-xs rounded ${
               speed === s
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-800'
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-800"
             } hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-400`}
             onClick={() => setSpeed(s)}
           >
             {s}x
           </button>
-        ))} 
-      </div>*/}
+        ))}
+      </div>
     </div>
   );
 }

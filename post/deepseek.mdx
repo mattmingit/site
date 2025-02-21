@@ -1,0 +1,82 @@
+---
+id: "5"
+date: "03/02/2025"
+date-index: ""
+image: "./img/blog/deepseek-header.jpg"
+title: "DeepSeek: the cutting edge AI model"
+description: "Exploring DeepSeek-R1, its training methods, architecture, and impact on the AI landscape."
+category: "Journal"
+icon: "./img/icons/Editing.png"
+---
+
+import MdxH3 from "@/post-components/mdxh3";
+import ListItem from "@/post-components/listitem";
+import MathBlock from "@/post-components/math";
+
+<img
+  className="rounded-[10px]"
+  src="../img/blog/deepseek-header.jpg"
+/>
+
+DeepSeek represents one of the most advanced and open-weight large language models (LLM), developed to push the boundaries of artificial intelligence capabilities. With configurations ranging from 1.5 billion to 671 billion parameters, DeepSeek has established itself as a key player in the AI landscape. DeepSeek makes its algorithms, models, and training details *open-source*, allowing code to be freely available for use, modification, viewing, and designing documents for building purposes.
+
+The **DeepSeek-R1** model provides responses comparable to other contemporary large language models, such as OpenAi's GPT-4o on o1, but it is trained at significantly lower cost and a lower computing power.
+
+<MdxH3>What is DeepSeek-R1?</MdxH3>
+
+DeepSeek-R1 is an advanced language model developed to significantly enhance the reasoning capabilities of artificial intelligence systems. Unlike other models that rely heavily on supervised data, DeepSeek-R1 uses reinforcement learning (RL) as a crucial part of its training process, combining it with innovative techniques to maximize its performance and usability.
+
+<MdxH3>The training process of DeepSeek-R1</MdxH3>
+
+The training process of DeepSeek-R1 is divided into several stages [@deepseek2025], each with a specific role in shaping its reasoning abilities:
+
+<ListItem>1. Cold-start</ListItem>
+This is initial step is crucial to provide the model witha solid foundation to start from. Unlike DeepSeek-R1-Zero, which begins RL training without supervised data, DeepSeek-R1 uses a small set of high-quality data called *cold-start data*. This data mainly consists of *"chain of thought"* (CoT) resoning examples. The cold-start data includes a specific format that includes a summary at the end of the response, making the results more user-friendly.
+
+<ListItem>2. Initial fine-tuning (SFT)</ListItem>
+The base model (DeepSeek-V3-Base) is initially fine-tuned with the cold-start data. This process provides the model with a stable starting point for reinforcement learning.
+
+<ListItem>3. Reasoning-oriented Reinforcement Learning (RL)</ListItem>
+After initial fine-tuning, DeepSeek-R1 undergoes a **reasoning-oriented RL**. This step aims to improve the model's reasoning abilities, focusing on tasks such as programming, mathematics, and logical reasoning. During this phase, a reward for language consistency is introduced, calculated as the proportion of words in the target language present in the CoT. This helps mitigate the issue of language mixing during reasoning.
+
+<ListItem>4. Rejection Sampling and Supervised Fine-Tuning (SFT)</ListItem>
+Once reasoning-oriented RL approaches convergence, new SFT data is collected through rejection sampling. This data includes both reasoning examples, evaluated through rules and generative reward models, and data from other domains, such as writing and QA.
+
+<ListItem>5. Reinforcement Learning (RL) across all scenarios</ListItem>
+Finally, the model undergoes a further phase of RL to align it with human preferences, focusing on the helpfulness and harmlessness of the responses.
+
+<MdxH3>Optimization and rewards of the model</MdxH3>
+
+It is useful to understand the optimization algorithm and how rewards are used to guide learning.
+
+<ListItem>1. Reinforcement learning</ListItem>
+The Reinforcement Learning (RL) is crucial in the development of DeepSeek-R1. It is used to optimize the model's reasoning abilities, without relying on supervised data at the beginning of the process. RL allows the model to learn to solve complex problems through trial and error, guided by a reward system. DeepSeek-R1 uses RL in combination with SFT to improve both reasoning skills and usability.
+
+<ListItem>2. Group Relative Policy Optimization (GRPO)</ListItem>
+DeepSeek-R1 employs the GRPO algorithm to optimize the model's policy during RL, calculating the baseline based on group scores. The objective function of GRPO is as follows:
+
+{/* prettier-ignore */}
+<MathBlock>$$J_{GRPO}(\theta) = \mathbb{E} \left[q\sim P(Q),\ \left\{o_i \right\}_{i=1}^G \sim \pi_{\theta_{old}}(O|q) \right]$$</MathBlock>
+<MathBlock>$$\frac{1}{G}\sum_{i=1}^G \biggl(min\biggl(\frac{\pi_{\theta}(o_{i}|q)}{\pi_{\theta_{old}}}A_i,\ clip\biggl(\frac{\pi_{\theta}(o_i|q)}{\pi_{\theta_{old}}(o_i|q)}, 1-\varepsilon, 1+\varepsilon\biggr)A_i \biggr)-\beta\mathbb{D}_{KL}(\pi_{\theta}||\pi_{ref})\biggr),$$</MathBlock>
+<MathBlock>$$\mathbb{D}_{KL}(\pi_{\theta}||\pi_{ref})=\frac{\pi_{ref}(o_i|q)}{\pi_{\theta}(o_i|q)}-log\frac{\pi_{ref}(o_i|q)}{\pi_{\theta}(o_i|q)}-1$$</MathBlock>
+
+where $\theta$ represents the model's parameters, $q$ is aquestion sampled from the distribution of questions $P(Q)$, $\left\{o_{i}\right\}_{i=1}^G$ are the outputs sampled from the old policy $\pi_{\theta_{old}}$. $A_{i}$ is the advantage calculated using a series of rewards $\{r_1,\ r_2\, \dots,\ r_G\}$ adn the following formula:
+
+{/* prettier-ignore */}
+<MathBlock>$$A_{i} = \frac{r_{i}-mean(\{r_1,\ r_2\, \dots,\ r_G\})}{std(\{r_1,\ r_2\, \dots,\ r_G\})}$$</MathBlock>
+
+$\mathbb{D}_{KL}$ is the [*Kullback-Leibler* divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence), which ensures that the new policy $\pi_{\theta}$ does not deviate too much from a reference policy $\pi_{r}$. $\epsilon$ and $\beta$ are hyperparameters.
+
+The model uses a reward system that includes accuracy rewards, which evaluate the correctness of the response, formatting rewards, which wncourage the model to include the reasoning process between `<think>` tags, language consistency rewards, which measures the proportion of words in the target language present in the reasoning process.
+
+<MdxH3>Distillation</MdxH3>
+
+Another interesting feature of DeepSeek-R1 is its ability to distill its knowledge into smaller models. This process allows for the creation of more efficient and easily usable models, maintaining performance comparable to the source model. Distillation is important because it allows for creating models with strong reasoning capabilities without the need for enormous computational resources. The "distilled" models obtained from DeepSeek-R1 have been shown to outperform open-source models of similar size.
+
+<MdxH3>Conclusion</MdxH3>
+
+DeepSeek-R1 represents an important step forward in the development of language models capable of advanced reasoning. Thanks to the innovative training process that combines cold-start data, reinforcement learning, and distillation, DeepSeek-R1 demonstrates exceptional performance in a wide range of tasks. Despite some limitations, its success highlights the potential of RL in the evolution of LLMs and opens new perspectives for future research in the field of artificial intelligence.
+That's all for today. I hope this post has been helpful in better understanding the capabilities and operation of DeepSeek-R1.
+
+{/* needed to separate content from bib*/}
+---

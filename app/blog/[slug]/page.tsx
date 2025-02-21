@@ -10,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import rehypePrism from "rehype-prism-plus";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
+import rehypeCitation from "rehype-citation";
 import "katex/dist/katex.min.css";
 import "prismjs/themes/prism-okaidia.css";
 import { AnimatedName } from "@/app/ui/animated-name";
@@ -17,7 +18,7 @@ import { AnimatedName } from "@/app/ui/animated-name";
 const postDir = path.join(process.cwd(), "post");
 
 export async function generateStaticParams() {
-  const f = await fs.readdirSync(postDir);
+  const f = fs.readdirSync(postDir);
   console.log("Files in post directory:", f);
   const slugs = f
     .filter((file) => file.endsWith(".mdx"))
@@ -64,7 +65,18 @@ export default async function BlogPostPage({ params }: PageProps) {
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [remarkGfm, remarkMath],
-        rehypePlugins: [[rehypePrism, { ignoreMissing: true }], rehypeKatex],
+        rehypePlugins: [
+          [rehypePrism, { ignoreMissing: true }],
+          rehypeKatex,
+          [
+            rehypeCitation,
+            {
+              bibliography: "./post/references.bib",
+              csl: "chicago",
+              linkCitations: true,
+            },
+          ],
+        ],
       },
     },
     components: { MdxH3, ListItem, MathBlock, LLM },
