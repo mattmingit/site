@@ -55,7 +55,7 @@ export default function Navbar() {
         </li>
         <li className="font-sf text-foreground-3 cursor-pointer hover:text-foreground-2">
           <Link
-            href="/p_doc/Montanari_Matteo_cv.pdf"
+            href="/p_doc/matteo_montanari_cv.pdf"
             rel="noopener noreferrer"
             target="_blank"
           >
