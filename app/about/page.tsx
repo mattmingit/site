@@ -16,7 +16,8 @@ export default function About() {
           <p className="font-semibold text-[16px] text-foreground-2">About</p>
           <p>
             Ever since I was young, technology has been a magnetic force in my
-            life. Growning up I found a new interest in economy and finance.{" "}
+            life. Growning up I found a new interest in economy and
+            finance.{" "}
           </p>
           <p>
             During my studies I had the opportunity to dive in the world of
@@ -78,25 +79,6 @@ export default function About() {
                 rs-quant is a rust library designed for quantitative finance
                 enthusiasts. It provides a set of models, formulas and tools to
                 perform financial analysis.
-              </p>
-            </div>
-            <div>
-              <p>
-                <span className="font-semibold text-blue">portfolio-rs</span> /{" "}
-                <span className="font-semibold">2024 -</span>{" "}
-                <motion.span
-                  className="h-2 w-2 rounded-full bg-green inline-block ml-1 mt-[2px]"
-                  animate={{ scale: [1, 1.3, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />{" "}
-              </p>
-              <p className="flex flex-row items-center">
-                portfolio-rs is a rust library designed to simplify portfolio
-                management and analysis for developers, quantitative analystis,
-                and finance enthusiasts. The library provides tools to create
-                and manage portfolio instances, calculate metrics for both
-                portfolio and individual positions, and apply portfolio models
-                and theories for deeper insights and analysis.
               </p>
             </div>
             <div>

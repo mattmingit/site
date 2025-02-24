@@ -25,7 +25,7 @@ export default function Home() {
                 title={p.title}
                 // year={p.year}
                 image={p.image}
-                // href={p.href}
+                href={p.href}
                 desc={p.description}
                 employer={p.employer}
               />

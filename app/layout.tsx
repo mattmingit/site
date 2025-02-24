@@ -37,7 +37,7 @@ export default function RootLayout({
         >
           <div className="flex flex-col justify-center items-center min-h-[100vh] w-auto">
             <div className="flex flex-none flex-row items-start gap-[80px] justify-start flex-nowrap h-auto pt-[80px]">
-              <div className="sticky">
+              <div className="sticky top-5">
                 <Navbar />
               </div>
               <div className="flex flex-none flex-col items-start justify-center flex-nowrap gap-[40px] h-min overflow-hidden p-0">
