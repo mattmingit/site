@@ -48,7 +48,7 @@ export default function Navbar() {
               : "text-foreground-3"
           } hover:text-foreground-2`}
         >
-          Fun
+          <Link href="/fun">Fun</Link>
         </li>
         <li className="font-sf text-foreground-3 cursor-pointer hover:text-foreground-2">
           <Link

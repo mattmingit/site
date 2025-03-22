@@ -35,8 +35,11 @@ export default function About() {
           </p>
           <p>
             My journey didn&apos;t stop there. I ventured into{" "}
-            <span className="text-orange font-semibold">web development</span>,
+            <span className="text-red font-semibold">web development</span>,
             having fun building web and desktop applications.
+          </p>
+          <p>
+            Currently I am learning <span className="text-orange font-semibold">Rust</span>, which I would like to use to implement complex quantitative finance models given the excellent performance compared to Python. 
           </p>
           <p className="font-semibold text-[15px]">
             tldr; I enjoy learning new programming languages and creating
