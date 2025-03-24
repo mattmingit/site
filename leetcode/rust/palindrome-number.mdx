@@ -1,0 +1,141 @@
+---
+id: "9"
+title: "Palindrome Number"
+difficulty: "Easy"
+status: "Accepted"
+topic:
+  - "Math"
+---
+
+import MdxH3 from "@/post-components/mdxh3";
+
+<MdxH3>Problem</MdxH3>
+
+---
+
+Given an integer `x`, return `true` if `x` is **_palindrome_**, and `false` otherwise.
+
+<details>
+  <summary className = "cursor-pointer">Example 1</summary>
+  ```js
+  Input: x = 121
+  Output: true
+  Explanation: 121 reads as 121 from left to right and from right to left
+  ```
+</details>
+
+<details>
+  <summary className = "cursor-pointer">Example 2</summary>
+  ```js
+  Input: x = -121
+  Output: false
+  Explanation: From left to right, it reads -121. From right to left, it becomes 121-. 
+               Therefore it is not a palindrome.
+  ```
+</details>
+
+<details>
+  <summary className = "cursor-pointer">Example 3</summary>
+  ```js
+  Input: x = 10
+  Output: false
+  Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+  ```
+</details>
+
+<details>
+  <summary className="cursor-pointer">Constraints</summary>
+  ```js
+  231 <= x <=231 - 1
+  ```
+</details>
+
+<MdxH3>Solution one</MdxH3>
+
+---
+
+The function converts the input integer `x` into a string. It then checks if this string is equal to reverse. If the original string and the reversed are the same, the function returns `true`, indicating that the integer is palinfdrome. Otherwise return `false`.
+
+<details>
+  <summary className="cursor-pointer">Convert integer to string</summary>
+  ```rust
+  let n = x.to_string();
+  ```
+  Convert the integer `x` into a string and stores it into variable `n`.
+</details>
+
+<details>
+  <summary className="cursor-pointer">Check if string is palindrome</summary>
+  ```rust
+  n.chars().eq(n.chars().rev())
+  ```
+  `n.chars()` creates an iterator over the characters of the string `n`. `n.chars().rev()` creates an iterator over the characters of the string in reverse order. `eq()` compares the two iterators element by element to check if they are equal. 
+Comparing the original iterator with the reversed iterator, the function determines if the string `n` reads the same forwards and backwards (i.e. if it’s a palindrome). If the iterators are equal, the function returns `true`.  If the iterators are not equal, the function returns `false`. 
+</details>
+
+<details>
+  <summary className="cursor-pointer">Full code</summary>
+  ```rust
+  impl Solution {
+    pub fn is_palindrome(x: i32) -> bool {
+        let n = x.to_string();
+        n.chars().eq(n.chars().rev())
+    }
+} 
+  ```
+</details>
+
+<MdxH3>Solution two</MdxH3>
+
+---
+
+The code generates the reverse number of the integer `x` nad then checks if the reversed number is equal to the original one.
+
+<details>
+  <summary className="cursor-pointer">Reverse the number</summary>
+  ```rust
+  fn reverse(mut num: i32) -> i32 {
+    let mut r = 0;  
+    let s = if num < 0 { -1 } else { 1 };  
+    while num != 0 {
+        r = r * 10 + (num % 10);
+        num /= 10;
+    }
+    r * s
+  }
+  ```
+  The function takes an integer `num` as input. It initialize `r` (the reversed number) as `0`. The variable `s` is used to store the sign (`-1` for negative numbers, `1` fro positive numbers). `while num != 0` loop exctracts digits from `num` and appends them to `r`. `num % 10` extracts the last digit. `r = r * 10 + (num % 10)` shifts digits left in `r` and appends the new digit. `num /= 10` removes the last digit from `num`. Finally, it returns `r * s`, which keeps the sign of `num`.
+</details>
+
+<details>
+  <summary className="cursor-pointer">Check equality</summary>
+  ```rust
+  impl Solution {
+    pub fn is_palindrome(x: i32) -> bool {
+      x == reverse(x)
+    }
+  }
+  ```
+  The function checks if `x` is a palindrome by comparing `x` with `reverse(x)`. If they're equal, `x` is palindrome and returns `true`. Otherwise `false` is returned.
+</details>
+
+<details>
+  <summary className="cursor-pointer">Full code</summary>
+  ```rust
+  fn reverse(mut num: i32) -> i32 {
+    let mut r = 0;  
+    let s = if num < 0 { -1 } else { 1 };
+    while num != 0 {
+        r = r * 10 + (num % 10);
+        num /= 10;
+    }
+    r * s
+  }  
+
+  impl Solution {
+    fn is_palindrome(x: i32) {
+      x == reverse(x)
+    } 
+  }
+  ```
+</details>

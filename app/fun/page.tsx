@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Fun() {
   return (
     <>
@@ -5,10 +7,10 @@ export default function Fun() {
         <div className="text-foreground-2 gap-[15px] flex flex-col mb-[50px] text-[14px]">
           <p className="font-semibold text-[16px] text-foreground-2">Fun</p>
           <p>This is a vault tha contains some fun stuff.</p>
-          <ul className="font-bold cursor-pointer">
-            <li>~/vault</li>
-            <li>~/leetcode</li>
-            <li>~/travel</li>
+          <ul className="flex flex-col justify-between gap-2 font-bold cursor-pointer">
+            {/*<Link href="/">~/vault</Link>*/}
+            <Link href="/fun/leetcode">~/leetcode</Link>
+            {/*<Link href="/">~/travel</Link>*/} 
           </ul>
         </div>
       </div>

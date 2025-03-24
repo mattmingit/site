@@ -4,9 +4,9 @@ import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 
 const isProjectPage = (path: string) => {
-  const np = ["/blog", "/about", "fun"];
+  const namePage = ["/blog", "/about", "/fun"];
   const pathSegments = path.split("/").filter(Boolean);
-  return pathSegments.length === 1 && !np.includes(`/${pathSegments[0]}`);
+  return pathSegments.length === 1 && !namePage.includes(`/${pathSegments[0]}`);
 };
 
 export default function Navbar() {
@@ -43,7 +43,7 @@ export default function Navbar() {
         </li>
         <li
           className={`cursor-pointer ${
-            curPage === "/fun"
+            curPage === "/fun" || curPage.startsWith("/fun/")
               ? "font-semibold text-foreground-2"
               : "text-foreground-3"
           } hover:text-foreground-2`}
