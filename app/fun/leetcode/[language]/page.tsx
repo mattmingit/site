@@ -37,7 +37,6 @@ function getProblems(language: string) {
         title: file.replace(/\.mdx$/, ""),
         slug: file.replace(/\.mdx$/, "")
       };
-      //file.replace(/\.mdx$/, ""))
     }).sort((a, b) => a.id - b.id);
 }
 
