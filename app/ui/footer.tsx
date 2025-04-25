@@ -4,12 +4,12 @@ export default function Footer() {
       <div className="font-sf pt-[15px] pb-[30px] border-t border-solid flex justify-between flex-row">
         <div>
           <p className="font-semibold text-foreground-2 text-[14px]">
-            matteomontanarijob@gmail.com
+            matteomontanari@email.com
           </p>
         </div>
         <div>
           <p className="font-semibold text-foreground-3 text-[14px]">
-            Copyright &#169; 2024 Matteo Montanari.
+            Content &#169; 2024 Matteo Montanari.
           </p>
         </div>
       </div>
