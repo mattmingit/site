@@ -1,0 +1,109 @@
+---
+title: "Learning Rust for data analysis"
+pubDate: "2025-09-05"
+updatedDate: "2025-09-05"
+author: "Matteo Montanari"
+description: "Rust is a systems programming language gaining popularity for it's speed, safety, and concurrency capabilitites. It's unique ownership model prevents memory bugs and ensures thread-safe code, making it an appealing choice for tasks like financial analysis."
+image:
+  url: "/images/blog/ferris-rust.jpg"
+  alt: "ferris-rust"
+status: "published"
+category: "programming"
+tags: []
+relatedPosts: []
+---
+
+Rust is a general-purpose programming language. It is known for its *performance*, *type safety*, *concurrency*, and *memory safety*.
+
+Rust is a powerful tool for developer who need to write efficient and reliable code. 
+
+#### What makes Rust special?
+Rust design is focused on providing the performance of low-level languages (like `C` and `C++`) without compromising safety. It achieves this by leveraging strict rules and a unique ownership model that prevents common memory errors.
+
+#### Why Rust for data analysis?
+As someone diving into data analysis and data engeneering, especially in finanials fields, I found that Rust aligns perfectly with my needs. Here's why:
+1. **memory safety**: one of Rust's standout features is its memory safety, which prevents common issues like dangling pointers, buffer overflows, and null pointer deferencing. Rust achieve this through its _borrow checker_, which prevents memory safety errors and data races tracking the object lifetime of references at compile time. This feature ensures that data are safely accessed without the need of a conventional garbage collector. For data analysis, this allows me to work with large datasets confidently, without concerns about memory leaks or performance issues.
+
+2. **high performance**: Rust delivers performance on almost equal to `C` and `C++`, making it ideal for financial applications where speed is critical. In environments such as stock and derivative markets, real-time data processing requires fast computations. Rust compiles code into binaries (_machine code_) and it is characterized by zero-cost abstraction, allowing me to run intensive calulations (such as pricing models, risk assessments, Monte Carlo method, and portfolio optimizations) without compromising efficiency.
+
+3. **safe concurrency**: Rust's concurrency model prevents data races by enforcing strit rules on data ownership and sharing, data is either mutable and restricted to a single thread or shared immutably across threads, preventing synchronization issues. For real-time analysis, where parallel processing can drastically speed up computations, Rust makes it possible to run multi-threaded tasks safely and efficiently. 
+
+4. **robust type system for reliable code**: Rust is strongly typed and statically typed. meaning that the types of all variables must be known at compile time. with support fro generics, type inferene, and pattern matching,  Rust makes complex data manipulation easier. This result in safer, more-efficient, and more reliable code. 
+
+4. **reapidly growing ecosystem**: Rust's ecosystem is expanding rapidly, offering libraries like `ndarray` (for multi-dimensional array), `serde` (for fast data serialization and deserialization), `tokio` (for efficient asynchronous programming), and lots of libraries useful for data analysis. Its built-in tools (`Cargo` for package management, `Clippy` for linting, and `Rustfmt` for formatting) simplify development and improve code quality. 
+
+#### Challenges of using Rust
+While Rust offers significant advantages, there are a few chalenges to consider:
+1. **steeper learning curve**: Rust's ownership model and strict compiler checks can be intimidating for new comers. To understand Rust's approach to memory management, concepts like borrowing, ownership, and lifetimes need to be learned and practiced, especially if you're used to higher-level languages.
+
+2. **Compilation time**: Rust's compiler performs extensive safety checks and optimizations, which leads to longer buil times compared to languages like `C` or `C++. 
+
+3. **smaller data science ecosytem**: Rust's ecosytem is growing but still lessa mature than `Python` or `R`. However, libraries such as `ndarray`, `polars`, and `datafusion` are rapidly evolving and losing the gap.
+
+
+#### Rust in action: calculating the Sharpe ratio
+One practical application of Rust in financial analysis is calulating the _Sharpe ratio_, a widely-used metric to evaluate the risk-adjusted return of a portfolio. The formula is:
+
+<div style="display: flex; justify-content: center">
+  $$SR = \frac{R_{p} - R_{f}}{\sigma_{p}}$$
+</div>
+
+where:
+- $R_{p}$ represents the portfolio return.
+- $R_{f}$ represents the risk-free rate.
+- $\sigma_{p}$ represents the standard deviation of the portfolio.
+
+Here's how you can compute it in Rust:
+<details>
+  <summary style="cursor: pointer;">sharpe ratio rust code</summary>
+```rust
+
+  use std::f64;
+
+  // calculates the mean of a vector of returns
+  fn calculate_mean(returns: &[f64]) -> f64 {
+    let sum: f64 = returns.iter().sum();
+    sum / returns.len() as f64
+  }
+
+  // calculates the standard deviation of the returns
+  fn calculate_std(returns: &[f64], mean: f64) -> f64 {
+    let variance: f64 = returns.iter()
+      .map(|r| (r - mean).powi(2))
+      .sum::<f64>() / (returns.len() - 1) as f64;
+    variance.sqrt()
+  }
+
+  // Calculates the Sharpe Ratio of a portfolio
+  fn calculate_sharpe_ratio(returns: &[f64], risk_free_rate: f64) -> f64 {
+    let mean_return = calculate_mean(returns);
+    let std_dev = calculate_std_dev(returns, mean_return);
+
+    if std_dev == 0.0 {
+        f64::NAN // Avoid division by zero
+    } else {
+        (mean_return - risk_free_rate) / std_dev
+    }
+
+  }
+
+  fn main() {
+    let portfolio_returns = [0.01, 0.015, 0.02, 0.005, -0.01]; // Example portfolio returns
+    let risk_free_rate = 0.002; // Example risk-free rate (e.g. 0.2%)
+
+    let sharpe_ratio = calculate_sharpe_ratio(&portfolio_returns, risk_free_rate);
+
+    if sharpe_ratio.is_nan() {
+        println!("The standard deviation is zero; Sharpe Ratio cannot be calculated.");
+    } else {
+        println!("The Sharpe Ratio of the portfolio is: {:.4}", sharpe_ratio);
+    }
+
+  }
+
+  // Example output:
+  // The Sharpe Ratio of the portfolio is: 0.9405
+
+
+```
+</details>

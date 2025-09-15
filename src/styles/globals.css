@@ -1,0 +1,30 @@
+/* src/style/globals.css */
+
+:root {
+  --main-text-color: #444750;
+}
+
+@font-face {
+  font-family: "Cedarville";
+  src: url("/fonts/CedarvilleCursive-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+body {
+  font-family:
+    "Inter", Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial,
+    sans-serif;
+}
+
+p {
+  color: var(--main-text-color);
+}
+
+a {
+  text-decoration: none;
+  color: #0091ff;
+}

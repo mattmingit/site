@@ -1,0 +1,54 @@
+---
+// src/components/ui/Footer.astro
+
+import "../../styles/globals.css";
+---
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-item">
+      <p class="footer-email">matteomontanari@email.com</p>
+    </div>
+    <div class="footer-item">
+      <p class="footer-copyright">Content &#169; 2025 Matteo Montanari.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 30px;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .footer-email {
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+
+  .footer-copyright {
+    font-weight: 600;
+    color: #666;
+    margin: 0;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .footer-content {
+      font-size: 10px;
+      flex-direction: row;
+      gap: 10px;
+    }
+  }
+</style>

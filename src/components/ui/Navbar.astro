@@ -1,0 +1,99 @@
+---
+// src/components/ui/Navbar.astro
+
+import { isProjectPage } from "../../utils/ui/navbarPathUtils";
+import "../../styles/globals.css";
+
+const { url } = Astro;
+const curPage = url.pathname;
+---
+
+<nav class="navbar">
+  <ul class="navbar-list">
+    <li
+      class={`nav-item ${curPage === "/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+    >
+      <a href="/" class="nav-link">Home</a>
+    </li>
+    <li
+      class={`nav-item ${curPage === "/about/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+    >
+      <a href="/about/" class="nav-link">About</a>
+    </li>
+    <li
+      class={`nav-item ${curPage === "/blog/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+    >
+      <a href="/blog/" class="nav-link">Blog</a>
+    </li>
+    <li
+      class={`nav-item ${curPage === "/fun/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+    >
+      <a href="/fun/" class="nav-link">Fun</a>
+    </li>
+    <li class="navi-item nav-item-inactive">
+      <a href="https://github.com/mattmingit" class="nav-link">GitHub</a>
+    </li>
+    <li class="nav-item nav-item-inactive">
+      <a
+        href="https://www.linkedin.com/in/matteo-montanari-5a053027a/"
+        class="nav-link"
+        rel="noopener noreferrer"
+        target="_blank">LinkedIn</a
+      >
+    </li>
+    <li class="nav-item nav-item-inactive">
+      <a
+        href="/cv_doc"
+        class="nav-link"
+        rel="nopener noreferrer"
+        target="_blank">CV</a
+      >
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .navbar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .navbar {
+    width: 100%;
+  }
+
+  .navbar-list {
+    display: flex;
+    flex-direction: row;
+    gap: 11px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item {
+    cursor: pointer;
+  }
+
+  .nav-link {
+    color: var(--main-text-color);
+    text-decoration: none;
+    font-size: 14.5px;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: #0091ff;
+  }
+
+  .nav-item-active .nav-link {
+    color: #0091ff;
+    font-weight: 600;
+  }
+
+  .nav-item-inactive.nav-link {
+    color: #333;
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,127 @@
+---
+// src/components/ui/ProjectCard.astro
+
+const { title, image, desc, href, year } = Astro.props;
+---
+
+<a href={href} class="project-card-link">
+  <div class="project-card">
+    <div class="image-container">
+      <img src={image} alt={title} class="project-image" />
+    </div>
+    <div class="project-info">
+      <p class="project-title-desc">
+        {title} - {desc}
+      </p>
+      <p class="project-employer">{year}</p>
+    </div>
+  </div>
+</a>
+
+<style>
+  .project-card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-card {
+    height: auto;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .image-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    height: 300px;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+  }
+
+  .project-image {
+    border-radius: 10px;
+    background-color: #f3f3f3;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: center;
+    will-change: transform, box-shadow;
+    position: relative;
+    z-index: 2;
+  }
+
+  .project-card:hover .project-image {
+    transform: scale(1.01) translateZ(0);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.1),
+      0 10px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    background-color: #f5f5f5;
+    z-index: 1000;
+  }
+
+  /* Create pseudo-element to catch hover when image is scaled. */
+  .image-container::before {
+    content: "";
+    position: absolute;
+    top: -2%;
+    left: -2%;
+    right: -2%;
+    bottom: -2%;
+    z-index: 1;
+    display: none;
+  }
+
+  .project-card:hover .image-container::before {
+    display: block;
+  }
+
+  .project-info {
+    display: flex;
+    flex-direction: row;
+    padding-top: 5px;
+    justify-content: space-between;
+    position: relative;
+    z-index: 0;
+  }
+
+  .project-title-desc {
+    padding-left: 5px;
+    margin: 0;
+  }
+
+  .project-employer {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .project-card {
+      font-size: 11px;
+    }
+
+    .image-container {
+      height: 200px;
+    }
+
+    .project-info {
+      gap: 20px;
+    }
+
+    /* Adjust 3D effect for mobile. */
+    .project-card:hover .project-image {
+      transform: scale(1.15) translateZ(0);
+      box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.12),
+        0 5px 10px rgba(0, 0, 0, 0.08);
+    }
+  }
+</style>

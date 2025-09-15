@@ -1,0 +1,78 @@
+---
+// src/pages/blog/[post].astro
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/globals.css";
+import { getCollection, render } from "astro:content";
+import { capitalize } from "../../utils/methods/capitalize";
+
+// generate static paths for all blog posts
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("blog");
+
+  return blogPosts.map((post) => ({
+    params: {
+      slug: post.data.slug,
+    },
+    props: {
+      post,
+    },
+  }));
+}
+
+// receive the posta as prop
+const { post } = Astro.props;
+
+// render the post content
+const { Content, remarkPluginFrontmatter } = await render(post);
+---
+
+<Layout>
+  <article class="blog-post-container">
+    <header class="blog-post-header">
+      <p class="post-title">{post.data.title}</p>
+      <p class="post-meta">
+        {remarkPluginFrontmatter.minutesRead} - {
+          post.data.pubDate.toLocaleString("it-IT", {
+            day: "numeric",
+            month: "numeric",
+            year: "numeric",
+          })
+        }
+      </p>
+      <p class="post-meta">
+        {capitalize(post.data.category)} - {capitalize(post.data.projectType)}
+      </p>
+      <img
+        src={post.data.image.url}
+        alt={post.data.image.alt}
+        style="width: 100%; border-radius: 15px; margin-top: 20px;"
+      />
+    </header>
+    <div class="post-content">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .blog-post-header {
+    margin: 0;
+  }
+
+  .post-title {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--main-text-color);
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-meta {
+    font-size: 13px;
+    margin: 5px 0 0;
+  }
+
+  .post-content p {
+    margin: 0;
+  }
+</style>

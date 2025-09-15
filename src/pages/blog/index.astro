@@ -1,0 +1,176 @@
+---
+// src/pages/blog.astro
+import "../../styles/globals.css";
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/ui/Navbar.astro";
+import { getCollection } from "astro:content";
+
+// use glob to import all posts.
+const allPosts = await getCollection("blog");
+
+const sortedPosts = allPosts.sort(
+  (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<Layout>
+  <div class="blog-container">
+    <div>
+      <p class="blog-header">Blog, thoughts and commentaries</p>
+      <Navbar />
+    </div>
+
+    <!--- blog post grid --->
+    <div class="grid-container">
+      {
+        sortedPosts.map((p: any) => (
+          <div class="blog-post-card">
+            <a href={`/blog/${p.data.slug}/`} class="blog-post-link">
+              {p.data.image && (
+                <img
+                  src={p.data.image.url}
+                  alt={p.data.image.alt || p.data.title}
+                  class="blog-post-image"
+                />
+              )}
+              <div class="blog-post-info">
+                <p class="blog-post-title">{p.data.title}</p>
+                <p class="blog-post-date">
+                  {p.data.pubDate.toLocaleString("it-IT", {
+                    day: "numeric",
+                    month: "numeric",
+                    year: "numeric",
+                  })}
+                </p>
+              </div>
+              <div class="blog-post-preview">
+                <p style="margin: 0;">{p.data.description}</p>
+              </div>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .blog-header {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--main-text-color);
+    margin: 0;
+    padding: 0;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+
+  .blog-post-card {
+    padding-top: 40px;
+  }
+
+  .blog-post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .blog-post-image {
+    height: 200px;
+    width: 400px;
+    border-radius: 0.5rem;
+    position: relative;
+    object-fit: cover;
+    object-position: center;
+    transform-origin: center;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: transform. box-shadow;
+    z-index: 2;
+  }
+
+  .blog-post-card:hover .blog-post-image {
+    transform: scale(1.01) translateZ(0); /* Slightly smaller scale for blog images */
+    box-shadow:
+      0 15px 30px rgba(0, 0, 0, 0.1),
+      0 8px 16px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+  }
+
+  .blog-post-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .blog-post-title {
+    font-size: 15px;
+    font-weight: 500;
+    padding-left: 5px;
+    margin-top: 15px;
+    max-width: 300px;
+    margin: 0;
+  }
+
+  .blog-post-description {
+    margin-top: 10px;
+    padding-left: 5px;
+    padding-bottom: 15px;
+    color: #666;
+    max-width: 300px;
+    margin: 10px 0 0 0;
+  }
+
+  .blog-post-date {
+    font-size: 0.75rem;
+    color: #6b7280;
+    padding-left: 5px;
+    margin: 2px 0 0 0;
+  }
+
+  .blog-post-preview {
+    position: relative;
+    font-size: 12px;
+    margin: 5px 0 0 5px;
+    overflow: hidden;
+    max-height: 5em;
+  }
+
+  .blog-post-preview:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3em;
+    content: "";
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.8) 20%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .grid-container {
+      margin-top: 20px;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .blog-post-image {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .blog-posts-container {
+      gap: 30px;
+    }
+  }
+</style>

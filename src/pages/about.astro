@@ -1,0 +1,204 @@
+---
+// src/pages/about.astro
+
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/ui/Navbar.astro";
+import AnimatedDot from "../components/ui/AnimatedDot.astro";
+import "../styles/globals.css";
+---
+
+<Layout>
+  <div class="about-container">
+    <div>
+      <p class="about-header">About</p>
+      <Navbar />
+    </div>
+    <div class="about-content">
+      <p>
+        Ever since I was young, technology has been a magnetic force about in my
+        life. Growning up I found a new interest in economy and finance.
+      </p>
+      <p>
+        At University I had the opportunity to attend a statistics course which
+        introduced me to the <span class="span-blue">R</span> programming language,
+        where I learned to analyze and solve statistical models and problems using
+        that language.
+      </p>
+      <p>
+        This sparked a deeper curiosity in me, and I soon found myself exploring
+        more coding languages, with a special focus on <span class="span-green"
+          >Python</span
+        > and <span class="span-indigo">SQL</span> fro data analysis.
+      </p>
+      <p>
+        My journey did not stop there. I ventured into <span class="span-red"
+          >web development</span
+        > having fun building websites frontend.
+      </p>
+      <p>
+        Currently I am lerning <span class="span-orange">Rust</span>, which I
+        would like to use to implement complex quantitative finance models given
+        the excellent performance compared to Python.
+      </p>
+      <p class="tldr-par">
+        tldr; I enjoy learning new programming languages and creating valuable
+        solutions, especially in the field of financial and data analysis.
+      </p>
+    </div>
+    <div class="education-container">
+      <p class="education-header">Education</p>
+      <p>
+        Università Telematica UniNettuno - Economia e Governo d'Impresa / 2024 - <AnimatedDot
+        />
+      </p>
+    </div>
+    <div class="working-container">
+      <p class="working-header">Working on</p>
+      <div class="working-content">
+        <div>
+          <p>
+            <span class="span-blue">securities-master</span> / <span
+              class="working-year">2025 -</span
+            >
+            <AnimatedDot />
+          </p>
+          <p class="working-description">
+            securities-master contains SQL and Rust scripts to help automate the
+            management, fetching, and manipulation of financial data. The tools
+            provided in this library are useful to work with financial
+            databases. It helps to streamline data operations such as data
+            extraction, data transformation, and periodic updates.
+          </p>
+        </div>
+        <div>
+          <p>
+            <span class="span-blue">quant-lib</span> / <span
+              class="working-year">2025 -</span
+            >
+            <AnimatedDot />
+          </p>
+          <p class="working-description">
+            quant-lib is a rust library for quantitative finance. It provides
+            sets of models, formulas and tools to perform financial analysis.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="feynman-citation">
+      <p class="feynman-par">
+        Study hard what interests you the most in the most undisciplined,
+        irreverent and original manner possible.
+      </p>
+      <p class="feynman-name">Richard Feynman</p>
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  p {
+    /* font-size: 14px; */
+    color: #444750;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+  }
+
+  .about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .about-header {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  .about-content p {
+    margin-bottom: 15px;
+  }
+
+  .span-blue {
+    color: #0091ff;
+    font-weight: 600;
+  }
+
+  .span-green {
+    color: #4ad969;
+    font-weight: 600;
+  }
+
+  .span-indigo {
+    color: #6b5dff;
+    font-weight: 600;
+  }
+
+  .span-red {
+    color: #ff384f;
+    font-weight: 600;
+  }
+
+  .span-orange {
+    color: #c55200;
+    font-weight: 600;
+  }
+
+  .tldr-par {
+    /* font-size: 15px; */
+    font-weight: 600;
+  }
+
+  .education-container {
+    border-bottom: 1px solid rgba(68, 71, 80, 0.2);
+    padding-bottom: 20px;
+  }
+
+  .education-header {
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  .working-container {
+    border-bottom: 1px solid rgba(68, 71, 80, 0.2);
+    padding-bottom: 20px;
+  }
+
+  .working-header {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .working-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .working-year {
+    font-weight: 600;
+  }
+
+  .feynman-citation {
+    display: flex;
+    flex-direction: column;
+    font-family: "Cedarville" !important;
+  }
+
+  .feynman-par {
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .feynman-name {
+    font-weight: 500;
+    align-self: flex-end;
+    font-size: 18px;
+  }
+</style>
