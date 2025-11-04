@@ -10,7 +10,7 @@ const projectRoot = path.join(__dirname, "../../..");
 
 const title = process.argv[2];
 if (!title) {
-  console.error("Please provide a title: pnpm run newPost <post-title>");
+  console.error("Please provide a title: pnpm run new-post <post-title>");
   process.exit(1);
 }
 
@@ -32,7 +32,7 @@ image:
   url: ""
   alt: ""
 status: "${POST_STATUS.PUBLISHED}"
-category: "${BLOG_CATEGORIES.PERSONAL}"
+category: "${BLOG_CATEGORIES.WRITING}"
 tags: []
 relatedPosts: []
 projectType:

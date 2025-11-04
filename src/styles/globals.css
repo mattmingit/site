@@ -2,6 +2,13 @@
 
 :root {
   --main-text-color: #444750;
+  --green: #4ad969;
+  --red: #ff4245;
+  --orange: #ff9230;
+  --mint: #54dfca;
+  --teal: #3bddec;
+  --blue: #0088ff;
+  --black: #121316;
 }
 
 @font-face {
@@ -12,6 +19,36 @@
 @font-face {
   font-family: "Inter";
   src: url("/fonts/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Playfair";
+  src: url("/fonts/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "MonacoRegular";
+  src: url("/fonts/MonacoNerdFont-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "MonacoBold";
+  src: url("/fonts/MonacoNerdFont-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Garamond";
+  src: url("/fonts/Garamond.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GaramondLight";
+  src: url("/fonts/Garamond-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "GaramondLightItalic";
+  src: url("/fonts/Garamond-LightItalic.ttf") format("truetype");
 }
 
 body {

@@ -1,6 +1,5 @@
 ---
 // src/components/ui/Navbar.astro
-
 import { isProjectPage } from "../../utils/ui/navbarPathUtils";
 import "../../styles/globals.css";
 
@@ -11,89 +10,108 @@ const curPage = url.pathname;
 <nav class="navbar">
   <ul class="navbar-list">
     <li
-      class={`nav-item ${curPage === "/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+      class={`nav-item ${curPage === "/" || isProjectPage(curPage) ? "nav-item-active" : ""}`}
     >
       <a href="/" class="nav-link">Home</a>
     </li>
     <li
-      class={`nav-item ${curPage === "/about/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+      class={`nav-item ${curPage === "/projects/" || isProjectPage(curPage) ? "nav-item-active" : ""}`}
+    >
+      <a href="/projects/" class="nav-link">Projects</a>
+    </li>
+    <li
+      class={`nav-item ${curPage === "/about/" || isProjectPage(curPage) ? "nav-item-active" : ""}`}
     >
       <a href="/about/" class="nav-link">About</a>
     </li>
     <li
-      class={`nav-item ${curPage === "/blog/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+      class={`nav-item ${curPage === "/blog/" || isProjectPage(curPage) ? "nav-item-active" : ""}`}
     >
       <a href="/blog/" class="nav-link">Blog</a>
     </li>
     <li
-      class={`nav-item ${curPage === "/fun/" || isProjectPage(curPage) ? "nav-item-active" : "nav-item-inactive"}`}
+      class={`nav-item ${curPage === "/fun/" || isProjectPage(curPage) ? "nav-item-active" : ""}`}
     >
       <a href="/fun/" class="nav-link">Fun</a>
     </li>
-    <li class="navi-item nav-item-inactive">
-      <a href="https://github.com/mattmingit" class="nav-link">GitHub</a>
+    <li class="nav-item">
+      <a href="https://github.com/mattmingit" class="nav-link">Github</a>
     </li>
-    <li class="nav-item nav-item-inactive">
+    <li class="nav-item">
       <a
         href="https://www.linkedin.com/in/matteo-montanari-5a053027a/"
-        class="nav-link"
-        rel="noopener noreferrer"
-        target="_blank">LinkedIn</a
+        class="nav-link">Linkedin</a
       >
     </li>
-    <li class="nav-item nav-item-inactive">
-      <a
-        href="/cv_doc"
-        class="nav-link"
-        rel="nopener noreferrer"
-        target="_blank">CV</a
-      >
-    </li>
+    <li class="nav-item"><a href="/cv_doc" class="nav-link">CV</a></li>
   </ul>
 </nav>
 
 <style>
   .navbar {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    height: 20px;
     list-style: none;
     padding: 0;
     margin: 0;
+    width: max-content;
+    border: 1px solid #f0f0f0;
+    padding: 8px 16px;
+    border-radius: 10px;
+    margin-top: 10px;
+    box-shadow:
+      0 6px 5px rgba(0, 0, 0, 0.08),
+      0 0 0 1px rgba(0, 0, 0, 0.04);
   }
-
-  .navbar {
-    width: 100%;
-  }
-
   .navbar-list {
     display: flex;
-    flex-direction: row;
-    gap: 11px;
+    gap: 0.1rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
   .nav-item {
+    position: relative;
     cursor: pointer;
   }
 
   .nav-link {
-    color: var(--main-text-color);
+    color: #d0d0d0;
     text-decoration: none;
-    font-size: 14.5px;
-    transition: color 0.2s ease;
+    transition: color 150ms ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: block;
+    padding: 0.3rem 0.3rem;
+    border-radius: 5px;
   }
 
   .nav-link:hover {
-    color: #0091ff;
+    /* color: #0091ff; */
+    color: var(--main-text-color);
+    /* background: #f0f0f0; */
+    padding: 0.3rem 0.3rem;
   }
 
   .nav-item-active .nav-link {
-    color: #0091ff;
+    /* color: #0091ff; */
+    color: var(--main-text-color);
     font-weight: 600;
   }
 
-  .nav-item-inactive.nav-link {
-    color: #333;
-    font-weight: 600;
+  .overlay {
+    position: absolute;
+    height: 20px;
+    width: 30px;
+    background-color: red;
+    z-index: -1;
+    transition:
+      0.3s ease left,
+      width,
+      opacity;
+    opacity: 0;
   }
 </style>

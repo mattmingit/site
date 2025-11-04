@@ -1,0 +1,576 @@
+---
+// src/components/ui/OsxTerms.astro
+import "../../styles/globals.css";
+
+// Script imports
+import fs from "fs";
+import path from "path";
+import yahooFinance from "yahoo-finance2";
+
+const pagesDir = path.resolve("src/pages");
+
+function getPages(dir: string) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  return entries.flatMap((entry) => {
+    // Handle directories (only one level)
+    if (entry.isDirectory()) {
+      const name = entry.name;
+
+      // filter out unwanted dirs
+      if (["api"].includes(name)) return [];
+
+      return [{ name, url: "/" + name }];
+    }
+
+    // Handle files
+    if (!entry.name.match(/\.(astro|md)$/)) return [];
+
+    let name = entry.name.replace(/\.(astro|md)$/, "");
+
+    // filter out unwanted files
+    if (["404", "rss"].includes(name)) return [];
+
+    let url = "/" + name;
+
+    if (name === "index") {
+      name = "home";
+      url = "/";
+    }
+
+    return [{ name, url }];
+  });
+}
+
+async function getMarketData(tickers: any) {
+  const data = await yahooFinance.quote(tickers, {
+    return: "object",
+    fields: [
+      "symbol",
+      "regularMarketPrice",
+      "regularMarketChange",
+      "regularMarketChangePercent",
+    ],
+  });
+  return tickers.map((t: any) => ({
+    ticker: t,
+    currentPrice: data[t]?.regularMarketPrice,
+    change: data[t]?.regularMarketChange,
+    percentChange: data[t]?.regularMarketChangePercent,
+  }));
+}
+
+const pages = getPages(pagesDir);
+const marketData = await getMarketData([
+  "^GSPC",
+  "^FTSE",
+  "^STOXX50E",
+  "^N225",
+  "000001.SS",
+  "^HSI",
+  "^VIX",
+]);
+---
+
+<div
+  class="osxterm-window"
+  data-pages={JSON.stringify(pages)}
+  data-market={JSON.stringify(marketData)}
+>
+  <div class="osxterm-titlebar">
+    <div class="osxterm-buttons">
+      <div class="close-button"><span>x</span></div>
+      <div class="minimize-button"><span>-</span></div>
+      <div class="zoom-button"><span>+</span></div>
+    </div>
+    <div class="titlebar-text"></div>
+  </div>
+  <div class="osxterm-content"></div>
+</div>
+
+<style>
+  .osxterm-window {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #acacac;
+    border-radius: 6px;
+    box-shadow: 0px 0px 20px #acacac;
+  }
+
+  .osxterm-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* center text */
+    position: relative; /* needed for absolutely positioning buttons */
+    background: linear-gradient(to bottom, #ebebeb, #d5d5d5);
+    color: #4d494d;
+    font-size: 11pt;
+    line-height: 20px;
+    height: 20px;
+    border-top: 1px solid #f3f1f3;
+    border-bottom: 1px solid #b1aeb1;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    user-select: none;
+    cursor: default;
+  }
+
+  .osxterm-titlebar span {
+    line-height: 9px;
+    vertical-align: 50%;
+    visibility: hidden;
+  }
+
+  .titlebar-text {
+    display: flex;
+    justify-self: center;
+  }
+
+  .osxterm-buttons {
+    position: absolute;
+    left: 8px;
+    top: 3px;
+    display: flex;
+    gap: 4px;
+  }
+
+  .osxterm-buttons:hover span {
+    visibility: visible;
+  }
+
+  .close-button {
+    background: #ff5c5c;
+    font-size: 9pt;
+    width: 11px;
+    height: 11px;
+    border: 1px solid #e33e41;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .close-button:active {
+    background: #c14645;
+    border: 1px solid #b03537;
+    color: #4e0002;
+  }
+
+  .minimize-button {
+    background: #ffbd4c;
+    font-size: 9pt;
+    line-height: 11px;
+    margin-left: 4px;
+    width: 11px;
+    height: 11px;
+    border: 1px solid #e09e3e;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .minimize-button:active {
+    background: #c08e38;
+    border: 1px solid #af7c33;
+    color: #5a2607;
+  }
+
+  .zoom-button {
+    background: #00ca56;
+    font-size: 9pt;
+    line-height: 11px;
+    margin-left: 6px;
+    width: 11px;
+    height: 11px;
+    border: 1px solid #14ae46;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .zoom-button:active {
+    background: #029740;
+    border: 1px solid #128435;
+    color: #003107;
+  }
+
+  .osxterm-content {
+    padding: 5px;
+    font-family: "MonacoBold";
+    font-size: 13px;
+    overflow: hidden;
+  }
+
+  .osxterm-content p {
+    margin: 0;
+  }
+
+  :global(.prompt-line) {
+    display: flex;
+    align-items: center;
+    color: #000;
+  }
+
+  :global(#prompt-input) {
+    border: none !important;
+    outline: none !important;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    flex: 1; /* let it grow to fill space */
+    box-shadow: none !important;
+    appearance: none;
+    margin-left: 10px;
+  }
+
+  :global(#prompt-input:focus) {
+    border: none !important;
+    outline: none !important;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    flex: 1; /* let it grow to fill space */
+    box-shadow: none !important;
+    appearance: none;
+  }
+
+  :global(.output-black) {
+    color: var(--black);
+  }
+
+  :global(.output-blue) {
+    color: var(--blue);
+  }
+
+  :global(.output-green) {
+    color: var(--green);
+  }
+
+  :global(.error) {
+    /* color: #ff5c5c; */
+    color: var(--red);
+  }
+
+  :global(.col) {
+    display: inline-block;
+    min-width: 10ch; /* ensures equal spacing */
+    text-align: right;
+    font-family: "MonacoBold"; /* crucial for alignment */
+    font-weight: 600;
+  }
+
+  :global(.col.header) {
+    /* text-align: left; */
+    margin-bottom: 5px;
+  }
+
+  :global(.ticker) {
+    text-align: left;
+    min-width: 12ch;
+  }
+  :global(.price) {
+    text-align: left;
+    min-width: 10ch;
+  }
+  :globals(.change) {
+    width: 10ch;
+    text-align: left;
+  }
+  :globals(.percent) {
+    width: 10ch;
+    text-align: left;
+  }
+
+  :global(.pos) {
+    color: var(--green);
+  }
+
+  :global(.neg) {
+    color: var(--red);
+  }
+</style>
+
+<script>
+  // Function to update titlebar window size to simulate osx titlebar
+  function updateWindowSize() {
+    const windowEl = document.querySelector(".osxterm-window");
+    const titleEl = document.querySelector(".titlebar-text");
+    if (windowEl instanceof HTMLElement && titleEl) {
+      const w = windowEl.offsetWidth;
+      const h = windowEl.offsetHeight;
+      titleEl.innerHTML = `matteo &#8212 -bash &#8212 ${w} x ${h}`;
+    }
+  }
+  updateWindowSize();
+  window.addEventListener("resize", () => {
+    updateWindowSize();
+    getMaxLines();
+    pruneLines();
+  });
+
+  // Terminal content generation
+  const app = document.querySelector(".osxterm-content") as HTMLElement; // initializing simulated terminal application
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms)); // defining dely function
+  const termWindow = document.querySelector(".osxterm-window") as HTMLElement;
+  const pages = termWindow.dataset.pages
+    ? JSON.parse(termWindow.dataset.pages)
+    : [];
+  const marketData = termWindow.dataset.market
+    ? JSON.parse(termWindow.dataset.market)
+    : [];
+
+  // Function to start simulated terminal application
+  async function open_terminal() {
+    generateText("Ready to start.");
+    await delay(500);
+    generateText('Type "help" for a list of commands.');
+    await delay(500);
+    new_line();
+  }
+
+  // Function to get max lines based on simulated terminal app div height
+  function getMaxLines() {
+    if (!termWindow) return 18;
+    const h = termWindow.offsetHeight;
+    if (h > 387 && h < 412) return 18;
+    if (h >= 412 && h < 499) return 21;
+    if (h >= 499) return 24;
+    return 18;
+  }
+
+  // Function to remove oldest lines to simulate terminal behavior
+  function pruneLines() {
+    const lines = app.children;
+    const max_lines = getMaxLines();
+    while (lines.length > max_lines) {
+      app.removeChild(app.firstChild);
+    }
+  }
+
+  // create new terminal line
+  function new_line() {
+    const div = document.createElement("div");
+    div.classList.add("prompt-line");
+
+    const span = document.createElement("span");
+    span.textContent = "matteo@website - % ";
+
+    const input = document.createElement("input");
+    input.setAttribute("id", "prompt-input");
+    input.setAttribute("name", "prompt-input");
+    input.setAttribute("autocomplete", "off");
+    input.setAttribute("spellcheck", "false");
+    input.autofocus = true;
+
+    div.appendChild(span);
+    div.appendChild(input);
+    app.appendChild(div);
+
+    pruneLines();
+
+    // safe focus
+    setTimeout(() => {
+      if (document.activeElement.tagName !== "INPUT") {
+        input.focus();
+      }
+    }, 0);
+    input.focus();
+
+    // detecting keypress
+    input.addEventListener("keypress", async (event) => {
+      if (event.key == "Enter") {
+        const cmd = input.value.trim();
+        input.disabled = true; // prevent further typing
+        // function to handle command.
+        handleCommand(cmd);
+      }
+    });
+  }
+
+  // Command handling
+  function handleCommand(cmd: string) {
+    if (cmd === "ls") {
+      ls(cmd);
+    } else if (cmd === "clear") {
+      clear();
+    } else if (cmd === "whoami") {
+      whoami(cmd);
+    } else if (cmd === "pwd") {
+      pwd(cmd);
+    } else if (cmd === "help") {
+      help(cmd);
+    } else if (cmd.includes("cd")) {
+      cd(cmd);
+    } else if (cmd === "markets") {
+      markets(cmd);
+    } else {
+      cmdNotFound(cmd);
+    }
+    new_line();
+  }
+
+  // Functions to represent terminal commands
+  // Function to emulate ls command.
+  function ls(cmd: string) {
+    const c = pages
+      .map((p: any) => `<a class="output-blue" href="${p.url}">${p.name}</a>`)
+      .join(" ");
+    createOutput(cmd, c);
+  }
+
+  // Function to emulate clear command.
+  function clear() {
+    app.innerHTML = "";
+  }
+
+  // Function to emulate command not found error
+  function cmdNotFound(cmd: string) {
+    createOutput(cmd, `-bash: ${cmd}: command not found`, true);
+  }
+
+  // Function to emulate whoami command.
+  function whoami(cmd: string) {
+    createOutput(cmd, "Matteo Montanari", false, "output-black");
+  }
+
+  // Function to emulate pwd command.
+  function pwd(cmd: string) {
+    createOutput(cmd, window.location.href);
+  }
+
+  // Function to emulate help command.
+  function help(cmd: string) {
+    createOutput(cmd, "AVAILABLE COMMANDS: ", false, "output-black");
+    createOutput(
+      cmd,
+      "&nbsp;&nbsp;ls&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List all available website pages",
+      false,
+      "output-black",
+    );
+    createOutput(
+      cmd,
+      "&nbsp;&nbsp;cd &ltpage&gt&nbsp;&nbsp;&nbsp;&nbsp;Navigate to a specific website page",
+      false,
+      "output-black",
+    );
+    createOutput(
+      cmd,
+      "&nbsp;&nbsp;clear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clear the terminal",
+      false,
+      "output-black",
+    );
+    createOutput(
+      cmd,
+      "&nbsp;&nbsp;whoami&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display the website owner",
+      false,
+      "output-black",
+    );
+    createOutput(
+      cmd,
+      "&nbsp;&nbsp;pwd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show the current page URL",
+      false,
+      "output-black",
+    );
+    createOutput(
+      cmd,
+      "&nbsp;&nbsp;markets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show market overview of major indices",
+      false,
+      "output-black",
+    );
+    createOutput(
+      cmd,
+      "&nbsp;&nbsp;help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display this help message",
+      false,
+      "output-black",
+    );
+  }
+
+  // Function to emulate cd command to change website page
+  function cd(cmd: string) {
+    const target = cmd.substring(3).trim();
+
+    if (target === ".." || target === "/" || target === "home") {
+      createOutput(cmd, "Already at root directory");
+      return;
+    }
+
+    // check if page exist
+    const page = pages.find((p: any) => p.name === target);
+    if (page) {
+      window.location.href = page.url;
+    } else {
+      createOutput(cmd, `cd: no such website page: ${target}`, true);
+    }
+  }
+
+  // Function to emulate markets command to retrieve latest quotes
+  function markets(cmd: string) {
+    const header = `
+    <span class='col ticker header'>Ticker</span>
+    <span class='col price header'>LastQuote</span>
+    <span class='col change header'>Change</span>
+    <span class='col percent header'>Change%</span>
+    `;
+    createOutput(cmd, header, false, "output-black");
+    marketData.forEach((t: any) => {
+      const ticker =
+        t.ticker === "^GSPC"
+          ? "S&P500"
+          : t.ticker === "000001.SS"
+            ? "SSE COMP"
+            : t.ticker === "^FTSE"
+              ? "FTSE100"
+              : t.ticker.replace("^", "");
+      const text = `
+      <span class="col ticker">${ticker}</span> 
+      <span class="col price">${t.currentPrice.toFixed(2)}</span> 
+      <span class="col change ${t.change >= 0 ? "pos" : "neg"}">${t.change.toFixed(2)}</span> 
+      <span class="col percent ${t.percentChange >= 0 ? "pos" : "neg"}">${t.percentChange.toFixed(2)}%</span>
+    `;
+
+      createOutput(cmd, text);
+    });
+  }
+
+  // Create terminal output line
+  function createOutput(
+    command: string,
+    text: string,
+    isError = false,
+    cls?: string,
+  ) {
+    pruneLines();
+    const div = document.createElement("section");
+
+    const i = document.createElement("i");
+    if (isError) i.classList.add("error");
+
+    const msg = document.createElement("p");
+    msg.style.margin = "0";
+
+    if (isError) {
+      msg.classList.add("error");
+    }
+
+    if (cls) {
+      msg.classList.add(cls);
+    }
+
+    msg.innerHTML = text;
+
+    div.appendChild(i);
+    div.appendChild(msg);
+    app.appendChild(div);
+  }
+
+  // Function to generate generic text
+  function generateText(text: string) {
+    const p = document.createElement("p");
+    p.style.margin = "0";
+    p.classList.add("prompt-line");
+    p.innerHTML = text;
+    app.appendChild(p);
+    pruneLines();
+  }
+
+  open_terminal();
+</script>

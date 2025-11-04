@@ -4,32 +4,61 @@ import Name from "./ui/Name.astro";
 import Navbar from "./ui/Navbar.astro";
 import ProjectCard from "./ui/ProjectCard.astro";
 import projects from "../utils/homepage/projectsList";
+import OsxTerm from "./ui/OsxTerm.astro";
 import "../styles/globals.css";
 ---
 
-<div>
-  <Name />
-  <Navbar />
-  <div class="project-container">
-    {
-      projects.map((p) => (
-        <ProjectCard
-          title={p.title}
-          image={p.image}
-          href={p.href}
-          desc={p.description}
-          year={p.year}
-        />
-      ))
-    }
+<div class="home-container">
+  <div class="header-grid">
+    <div class="grid-text-content">
+      <p>
+        Hi, I’m <span
+          style="font-family: 'GaramondLightItalic'; color: var(--main-text-color);"
+          >Matteo</span
+        > 👋
+      </p>
+      <br />
+      <p>Welcome to my little corner of the internet 🌍</p>
+      <br />
+      <p>
+        I’m fascinated by the world of finance 📈 and I enjoy building programs
+        and apps that explore investments and quantitative finance.
+      </p>
+      <br />
+      <p>
+        Outside of that, you’ll probably find me running 🏃, reading a book 📚,
+        or writing a post for my blog ✍️ .
+      </p>
+      <br />
+      <p>
+        Right now, I’m studying Business Economics, while also experimenting
+        with ways technology can bring fresh perspectives into finance.
+      </p>
+    </div>
+    <div class="grid-left-content">
+      <OsxTerm />
+    </div>
   </div>
 </div>
 
 <style>
-  .project-container {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+  .home-container {
+    width: 100%;
+  }
+
+  .header-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-text-content {
+    padding: 10px;
+  }
+
+  .grid-text-content p {
+    font-size: 25px;
+    font-family: "GaramondLight";
+    color: rgb(163 163 163);
+    margin: 0;
   }
 </style>

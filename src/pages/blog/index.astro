@@ -2,7 +2,6 @@
 // src/pages/blog.astro
 import "../../styles/globals.css";
 import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/ui/Navbar.astro";
 import { getCollection } from "astro:content";
 
 // use glob to import all posts.
@@ -17,15 +16,15 @@ const sortedPosts = allPosts.sort(
   <div class="blog-container">
     <div>
       <p class="blog-header">Blog, thoughts and commentaries</p>
-      <Navbar />
     </div>
+    <p>This is where i write things down✍. Thoughts, experiments, and little stories worth of sharing.</p>
 
     <!--- blog post grid --->
     <div class="grid-container">
       {
         sortedPosts.map((p: any) => (
           <div class="blog-post-card">
-            <a href={`/blog/${p.data.slug}/`} class="blog-post-link">
+            <a href={`/blog/${p.data.slug}`} class="blog-post-link">
               {p.data.image && (
                 <img
                   src={p.data.image.url}
@@ -81,7 +80,8 @@ const sortedPosts = allPosts.sort(
 
   .blog-post-image {
     height: 200px;
-    width: 400px;
+    width: 100%;
+    max-width: 100%;
     border-radius: 0.5rem;
     position: relative;
     object-fit: cover;
@@ -107,12 +107,14 @@ const sortedPosts = allPosts.sort(
   }
 
   .blog-post-title {
-    font-size: 15px;
+    /* font-size: 15px; */
+    font-size: 20px;
     font-weight: 500;
     padding-left: 5px;
     margin-top: 15px;
     max-width: 300px;
     margin: 0;
+    font-family: "Garamond";
   }
 
   .blog-post-description {
@@ -125,7 +127,8 @@ const sortedPosts = allPosts.sort(
   }
 
   .blog-post-date {
-    font-size: 0.75rem;
+    /* font-size: 0.75rem; */
+    font-size: 0.8rem;
     color: #6b7280;
     padding-left: 5px;
     margin: 2px 0 0 0;

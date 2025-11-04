@@ -1,0 +1,106 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/globals.css";
+import { getCollection } from "astro:content";
+
+// Retrieve projects collection
+const projects = (await getCollection("projects")).sort(
+  (a, b) => (b.data.weight ?? 0) - (a.data.weight ?? 0),
+);
+
+const gridPattern = ["big", "small", "small", "wide", "small", "tall"];
+const total = Math.ceil(projects.length / 6) * 6;
+const paddedProjects = [
+  ...projects,
+  ...Array(total - projects.length).fill(null),
+];
+---
+
+<Layout>
+  <div class="projects-container">
+    <div>
+      <p class="projects-header">Projects, experiments and case studies</p>
+    </div>
+    <p>
+      I like building things 🛠️👷🚧. If you're curious about what I've been
+      wirking on this is the spot. <br /> Projects, prototypes, and experiments that
+      reflect my curiosity and skills.💡🚀
+    </p>
+    <div class="projects-grid">
+      {
+        paddedProjects.map((project, i) => {
+          const shape = gridPattern[i % 6];
+          return (
+            <div class={`item ${shape} ${!project ? "placeholder" : ""}`}>
+              {project ? (
+                <div>
+                  <h3>{project.data.title}</h3>
+                  <p>{project.data.description}</p>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .projects-header {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--main-text-color);
+    margin: 0;
+    padding: 0;
+  }
+
+  .projects-grid {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+    gap: 10px;
+  }
+
+  .item {
+    background: red;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    height: 100%;
+  }
+
+  .placeholder {
+    background: #e5e5e5;
+    color: transparent;
+  }
+
+  /* Shapes */
+  .big {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .wide {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .tall {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  .small {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+</style>

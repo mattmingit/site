@@ -30,13 +30,13 @@ const blog = defineCollection({
       category: z
         .enum([
           BLOG_CATEGORIES.BUSINESS,
-          BLOG_CATEGORIES.PERSONAL,
+          BLOG_CATEGORIES.WRITING,
           BLOG_CATEGORIES.TUTORIAL,
           BLOG_CATEGORIES.ECONOMICS,
           BLOG_CATEGORIES.TECHNOLOGY,
           BLOG_CATEGORIES.PROGRAMMING,
         ])
-        .default(BLOG_CATEGORIES.PERSONAL),
+        .default(BLOG_CATEGORIES.WRITING),
       tags: z.array(z.string()).default([]),
       readingTime: z.string().optional(),
       slug: z.string().optional(),
@@ -66,7 +66,11 @@ const blog = defineCollection({
     }),
 });
 
-const project = defineCollection({
+const projects = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/pages/projects/archive",
+  }),
   schema: z.object({
     name: z.string(),
     image: z.object({
@@ -101,7 +105,8 @@ const project = defineCollection({
     ]),
     repository: z.string().optional(),
     demo: z.string().optional(),
+    weight: z.number().gte(0).lte(1),
   }),
 });
 
-export const collections = { blog, project };
+export const collections = { blog, projects };
